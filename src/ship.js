@@ -1,14 +1,22 @@
-export class Ship {
+class Ship {
   constructor(length) {
     this.length = length;
-    this.damege = 0;
+    this.hits = 0;
+    this.isDestroyed = false;
   }
 
-  hitShip() {
-    this.damege += 1;
+  hit() {
+    if (!this.isDestroyed) {
+      this.hits += 1;
+      if (this.hits >= this.length) {
+        this.isDestroyed = true;
+      }
+    }
   }
 
   isSunk() {
-    return this.damege >= this.length;
+    return this.isDestroyed;
   }
 }
+
+export { Ship };
