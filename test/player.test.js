@@ -1,17 +1,17 @@
-import { Player } from "../src/player";
+import { Player } from '../src/player';
 
-describe("Player", () => {
-    let realPlayer;
-    let computerPlayer;
+describe('Player', () => {
+  let realPlayer;
+  let computerPlayer;
 
-    beforeEach(() => {
-        realPlayer = new Player("real");
-        computerPlayer = new Player("computer");
-    });
+  beforeEach(() => {
+    realPlayer = new Player('real');
+    computerPlayer = new Player('computer');
+  });
 
-    describe("Player constructor", () => {
-        test("attact on opponent ship", () => {
-            
-        })
-    }
-})
+  // describe("Player constructor", () => {
+  //     test("attact on opponent ship", () => {
+
+  //     })
+  // }
+});
