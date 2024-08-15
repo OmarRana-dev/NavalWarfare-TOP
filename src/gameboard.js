@@ -10,6 +10,15 @@ export class Gameboard {
     this.missedAttacks = []; // Array to store the coordinates of missed attacks
   }
 
+  // Method to initialize the gameboard with empty cells
+  initializeBoard() {
+    for (let i = 0; i < 10; i += 1) {
+      for (let j = 0; j < 10; j += 1) {
+        this.board.push({ x: j, y: i, ship: false });
+      }
+    }
+  }
+
   // Method to place a ship on the gameboard
   placeShip(ship, startCoordinates, orientation) {
     // Assuming startCoordinates is an object like {x: 0, y: 0}
@@ -17,7 +26,7 @@ export class Gameboard {
 
     // Check if the ship can be placed on the board
     const shipLength = ship.length;
-
+    const shipCoordinates = [];
     // Check if the ship can fit horizontally on the board
     if (orientation === 'horizontal') {
       if (x + shipLength > 10) {
@@ -33,7 +42,7 @@ export class Gameboard {
         return false; // Ship overlaps with another ship
       }
       for (let i = 0; i < ship.length; i += 1) {
-        this.board.push({ x: x + i, y, ship });
+        shipCoordinates.push({ x: x + i, y, ship });
       }
     }
 
@@ -52,9 +61,22 @@ export class Gameboard {
         return false; // Ship overlaps with another ship
       }
       for (let i = 0; i < ship.length; i += 1) {
-        this.board.push({ x, y: y + i, ship });
+        shipCoordinates.push({ x, y: y + i, ship });
       }
     }
+
+    // Place the ship on the board by replacing the `ship: false` property
+    shipCoordinates.forEach((shipCell) => {
+      const { x: shipX, y: shipY } = shipCell;
+
+      // Find the corresponding cell on the board and replace `ship: false` with the ship object
+      this.board.forEach((cell) => {
+        if (cell.x === shipX && cell.y === shipY && cell.ship === false) {
+          // eslint-disable-next-line no-param-reassign
+          cell.ship = ship; // Replace `false` with the ship object
+        }
+      });
+    });
 
     this.ships.push(ship); // Add ship to the list of ships
     return true; // Ship placed successfully
