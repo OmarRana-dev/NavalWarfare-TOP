@@ -12,6 +12,7 @@ describe('Player Class', () => {
       human = new Player('real');
       computer = new Player('computer');
       ship = new Ship(3);
+      computer.gameboard.initializeBoard();
       computer.gameboard.placeShip(ship, { x: 0, y: 0 }, 'horizontal');
     });
 
@@ -36,11 +37,12 @@ describe('Player Class', () => {
       human = new Player('real');
       computer = new Player('computer');
       ship = new Ship(3);
+      human.gameboard.initializeBoard();
       human.gameboard.placeShip(ship, { x: 0, y: 0 }, 'vertical');
     });
 
     test('it should receive a hit or miss', () => {
-      const result = computer.sendAttack(human);
+      const result = computer.sendAttack(human, { x: 4, y: 2 });
       expect(typeof result).toBe('boolean');
     });
   });
