@@ -1,5 +1,6 @@
 /* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable operator-linebreak */
+import { getRandomCoordinates } from './utils';
 
 export class Gameboard {
   constructor() {
@@ -14,24 +15,81 @@ export class Gameboard {
     // Assuming startCoordinates is an object like {x: 0, y: 0}
     const { x, y } = startCoordinates;
 
+    // Check if the ship can be placed on the board
+    const shipLength = ship.length;
+
+    // Check if the ship can fit horizontally on the board
     if (orientation === 'horizontal') {
-      // Place the ship horizontally
+      if (x + shipLength > 10) {
+        return false; // Ship cannot fit on the board
+      }
+      // Check if any other ship overlaps with the new ship
+      if (
+        this.board.some(
+          (cell) =>
+            cell.x >= x && cell.x < x + shipLength && cell.y === y && cell.ship,
+        )
+      ) {
+        return false; // Ship overlaps with another ship
+      }
       for (let i = 0; i < ship.length; i += 1) {
         this.board.push({ x: x + i, y, ship });
       }
-    } else if (orientation === 'vertical') {
-      // Place the ship vertically
+    }
+
+    // Check if the ship is fit vertically on the board
+    if (orientation === 'vertical') {
+      if (y + shipLength > 10) {
+        return false; // Ship cannot fit on the board
+      }
+      // Check if any other ship overlaps with the new ship
+      if (
+        this.board.some(
+          (cell) =>
+            cell.x === x && cell.y >= y && cell.y < y + shipLength && cell.ship,
+        )
+      ) {
+        return false; // Ship overlaps with another ship
+      }
       for (let i = 0; i < ship.length; i += 1) {
         this.board.push({ x, y: y + i, ship });
       }
     }
 
     this.ships.push(ship); // Add ship to the list of ships
+    return true; // Ship placed successfully
+  }
+
+  // Method to place the ships randomly on the board
+  palceShipsRandomly(ships) {
+    ships.forEach((ship) => {
+      let placed = false;
+      while (!placed) {
+        const orientation = Math.random() < 0.5 ? 'horizontal' : 'vertical';
+        const startCoordinates = getRandomCoordinates();
+        placed = this.placeShip(ship, startCoordinates, orientation);
+      }
+    });
   }
 
   // Method to receive an attack on the board
   receiveAttack(coordinates) {
-    // Check if the given coordinates are already attacked
+    // Find the cell on the board corresponding to the given coordinates
+    const attack = this.board.find(
+      (cell) => cell.x === coordinates.x && cell.y === coordinates.y,
+    );
+
+    if (attack && attack.ship) {
+      attack.ship.hit(); // Register a hit on the ship
+      this.attacked.push(coordinates); // Record the attacked cell
+      return true; // Attack was a hit
+    }
+    this.missedAttacks.push(coordinates); // Record the missed attack
+    return false; // Attack missed
+  }
+
+  // Check if the given coordinates are already attacked
+  isAttacked(coordinates) {
     if (
       this.attacked.some(
         (attacked) =>
@@ -47,21 +105,9 @@ export class Gameboard {
         (missed) => missed.x === coordinates.x && missed.y === coordinates.y,
       )
     ) {
-      return false; // Attack was already missed
+      return false; // Attack was already registered
     }
-
-    // Find the cell on the board corresponding to the given coordinates
-    const attack = this.board.find(
-      (cell) => cell.x === coordinates.x && cell.y === coordinates.y,
-    );
-
-    if (attack && attack.ship) {
-      attack.ship.hit(); // Register a hit on the ship
-      this.attacked.push(coordinates); // Record the attacked cell
-      return true; // Attack was a hit
-    }
-    this.missedAttacks.push(coordinates); // Record the missed attack
-    return false; // Attack missed
+    return true; // Attack was not registered yet
   }
 
   // Method to check if all ships are sunk
