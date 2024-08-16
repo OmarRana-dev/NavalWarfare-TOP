@@ -27,6 +27,7 @@ export class Gameboard {
     // Check if the ship can be placed on the board
     const shipLength = ship.length;
     const shipCoordinates = [];
+
     // Check if the ship can fit horizontally on the board
     if (orientation === 'horizontal') {
       if (x + shipLength > 10) {
@@ -63,6 +64,42 @@ export class Gameboard {
       for (let i = 0; i < ship.length; i += 1) {
         shipCoordinates.push({ x, y: y + i, ship });
       }
+    }
+
+    // Helper function to check if any ship is around a given cell
+    const isShipNearby = (cellX, cellY) => {
+      // List of relative positions to check around the current cell (8 directions)
+      const directions = [
+        { dx: -1, dy: 0 }, // Left
+        { dx: 1, dy: 0 }, // Right
+        { dx: 0, dy: -1 }, // Up
+        { dx: 0, dy: 1 }, // Down
+        { dx: -1, dy: -1 }, // Top-Left
+        { dx: 1, dy: -1 }, // Top-Right
+        { dx: -1, dy: 1 }, // Bottom-Left
+        { dx: 1, dy: 1 }, // Bottom-Right
+      ];
+
+      // Check each neighboring cell
+      return directions.some(({ dx, dy }) => {
+        const neighborX = cellX + dx;
+        const neighborY = cellY + dy;
+
+        // Find the neighboring cell on the board and check if it contains a ship
+        const neighboringCell = this.board.find(
+          (cell) => cell.x === neighborX && cell.y === neighborY,
+        );
+        return neighboringCell && neighboringCell.ship;
+      });
+    };
+
+    const anyShipAround = shipCoordinates.some((coordinate) => {
+      const { x: cellx, y: celly } = coordinate; // Destructure the properties
+      return isShipNearby(cellx, celly); // Return the boolean value from isShipNearby
+    });
+
+    if (anyShipAround) {
+      return false; // Ship cannot be placed near another ship
     }
 
     // Place the ship on the board by replacing the `ship: false` property
@@ -118,6 +155,7 @@ export class Gameboard {
           attacked.x === coordinates.x && attacked.y === coordinates.y,
       )
     ) {
+      console.log('attacked');
       return false; // Attack was already registered
     }
 
@@ -127,6 +165,7 @@ export class Gameboard {
         (missed) => missed.x === coordinates.x && missed.y === coordinates.y,
       )
     ) {
+      console.log('missed');
       return false; // Attack was already registered
     }
     return true; // Attack was not registered yet
