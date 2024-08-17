@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable no-console */
 import { Ship } from './ship';
 import { Player } from './player';
@@ -70,6 +71,7 @@ function handleHumanClick(event) {
   const cell = event.target;
 
   if (
+    // eslint-disable-next-line operator-linebreak
     cell.classList.contains('attacked') ||
     cell.classList.contains('missed')
   ) {

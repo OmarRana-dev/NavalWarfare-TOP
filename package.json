@@ -2,11 +2,14 @@
   "name": "navalwarfare-top",
   "version": "1.0.0",
   "main": "index.js",
+  "homepage": "https://OmarRana-dev.github.io/NavalWarfare-TOP",
   "scripts": {
     "build": "webpack",
     "start": "webpack serve",
     "lint": "eslint .",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "jest": {
     "transform": {
@@ -27,6 +30,7 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.1",
+    "gh-pages": "^6.1.1",
     "globals": "^15.9.0",
     "html-webpack-plugin": "^5.6.0",
     "prettier": "3.3.3",
