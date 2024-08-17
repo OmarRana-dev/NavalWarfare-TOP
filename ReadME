@@ -32,3 +32,52 @@ Naval Warfare is an implementation of the classic Battleship game. Players compe
 1. **Game Start:** Once the game loads, the computer places ships randomly on the gameboard.
 2. **Player Turns:** You take turns attacking by selecting coordinates. The computer responds with its own attack.
 3. **End Game:** The game ends when one player's entire fleet has been destroyed. Victory or defeat is displayed.
+
+## Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/OmarRana-dev/NavalWarfare-TOP.git
+cd NavalWarfare-TOP
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Build the project:
+
+```bash
+npm run build
+```
+
+4. Run the development server:
+
+```bash
+npm start
+```
+
+5. Play the game by opening the browser at http://localhost:5000.
+
+## Future Improvements
+
+- **Multiplayer Mode:** Implement a two-player mode for local or online multiplayer gameplay.
+- **Mobile Responsiveness:** Make the game fully responsive to provide a better experience on mobile devices.
+- **Custom Ship Placement:** Allow players to manually place ships before the game starts.
+- **Enhanced Graphics and Animations:** Improve the visual appeal of the game with better animations, effects, and a more polished UI.
+
+Pull requests are welcome. For major changes, please open an issue first
+to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit pull requests or open issues to suggest improvements or report bugs.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](https://choosealicense.com/licenses/mit/) file for details.
