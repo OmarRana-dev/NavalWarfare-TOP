@@ -69,8 +69,8 @@ npm start
 - **Custom Ship Placement:** Allow players to manually place ships before the game starts.
 - **Enhanced Graphics and Animations:** Improve the visual appeal of the game with better animations, effects, and a more polished UI.
 
-Pull requests are welcome. For major changes, please open an issue first
-to discuss what you would like to change.
+Just to let you know, pull requests are welcome. For major changes, please open an issue first
+I'd like to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
 
